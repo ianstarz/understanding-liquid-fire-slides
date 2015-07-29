@@ -1,640 +1,623 @@
 <!doctype html>
 <html lang="en">
 
-	<head>
-		<meta charset="utf-8">
+  <head>
+    <meta charset="utf-8">
 
-		<title>Understanding liquid-fire</title>
+    <title>Understanding liquid-fire</title>
 
-		<meta name="description" content="Ian Storz's presentation on liquid-fire for the 7-29-2015 Denver Ember.js meet up.">
-		<meta name="author" content="Ian Storz">
+    <meta name="description" content="Ian Storz's presentation on liquid-fire for the 7-29-2015 Denver Ember.js meet up.">
+    <meta name="author" content="Ian Storz">
 
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
 
-		<!-- Code syntax highlighting -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
-
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-
-		<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
-	</head>
-
-	<body>
-
-		<div class="reveal">
-
-			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
-				
-				<section>
-					<h2>Understanding liquid-fire</h2>
-					<p>by @ianstarz</p>
-					<em>Denver Ember.js meetup 7-29-15</em>
-				</section>
-
-				<section>
- 					First, a few thoughts on design...
-				</section>
-
-				<section>
-					<video controls>
-					  <source src="videos/ef4-on-design.mp4" type="video/mp4">
-					</video>
-					<small><em>https://www.youtube.com/watch?v=vq_BcIFM8Rc</em></small>
-
-					<aside class="notes">
-						(before the video plays)
-						Here is a clip of Edward Faulkener at the Silicon Valley Ember.js meet up in April.
-
-						(after the video plays)
-						Edward's talk at the Silicon Valley Ember.js meet up is an excellent resource for liquid-fire, and I got a lot out of it on my second time watching it. If you haven't seen this talk or the one he gave at Ember Conf, I'd highly recommend it as he does a lot of cool stuff with liquid-fire and other aspects of Ember CLI.
-
-						But let's talk for a moment about placing our designs in context.
-					</aside>						
-				</section>
-
-				<section>
-					<img src="images/lean-crunch.jpg" />
-
-					<aside class="notes">
-						Take for instance this product. Does anyone know what it is? Admittedly, this is actually a conceptual design for Kashi Go Lean Crunch cereal, so this example is somewhat contrived, but it was designed nonetheless. Perhaps we can make sense of this design in context.
-					</aside>
-				</section>
-
-				<section>
-					<img src="images/cereal-aisle.jpg" />
-
-					<aside class="notes">
-						In the very specific building and task for grocery shopping, and even more specifically, in the cereal aisle, we have pretty standardized expectations for what the products will look like.
-					</aside>
-				</section>
-
-				<section>
-					<img src="images/lean-crunch.jpg" />
-
-					<aside class="notes">
-						Now, a product like this...
-					</aside>
-				</section>
-
-				<section>
-					<img src="images/cereal-aisle.jpg" />
-
-					<aside class="notes">
-						..in this environment, might do one of three things: 1) it might stand out to you; 2) it might blend in naturally; 3) or it might offend you. Each one of these outcomes has a variety of different consequences that should be considered, but ultimately, you want to start with one simple consideration: what affects does this physical object have in its environment.
-					</aside>
-				</section>
-
-				<section>
-					<img src="./images/dieter-rams-radio.jpg" />
-
-					<aside class="notes">
-						The way we perceive the world is a natural process. Our brains have evolved to quickly and efficiently place objects in the context of our world. This is why good design is so often "invisible". Good design is frictionless when being placed in our surroundings.
-					</aside>
-				</section>
-
-				<section>
-					<img src="./images/doorstep.jpg" />
-
-					<aside class="notes">
-						Contrarily, unfunctional design can be jarring. It calls attention to itself, and away from the purpose it is trying to fit. The lines and composition might be pleasant, but the object's function in the physical world can be quixotic.
-					</aside>
-				</section>
-
-				<section>
-					<video controls>
-					  <source src="videos/ef4-on-abstraction.mp4" type="video/mp4">
-					</video>
-					<small><em>https://www.youtube.com/watch?v=vq_BcIFM8Rc</em></small>
-
-					<aside class="notes">
-						Here is another clip of Edward talking about abstraction and it's cognitive load on the brain.
-					</aside>						
-				</section>
-
-				<section>
-					<img src="./images/smashing-magazine/scrolling-no-animation.gif" />
-					<small><em>http://www.smashingmagazine.com/2013/10/smart-transitions-in-user-experience-design/</em></small>
-
-					<aside class="notes">
-						We encounter these same ideas in user experience and user interface design, and even though we as user experience designers understand why something might behave like this.
-					</aside>
-				</section>
-
-				<section>
-					<img src="./images/smashing-magazine/scrolling-animated.gif" />
-					<small><em>http://www.smashingmagazine.com/2013/10/smart-transitions-in-user-experience-design/</em></small>
-					
-					<aside class="notes">
-						When we simulate a physical experience, the experience is easier to understand and actually takes away cognitive load, even though you are adding to the experience. There are many more frames between the animated scroll vs the non animated scroll, but they help the user instead of making them think harder. This should be a motivation as motion designers. We should ask ourselves: how does this motion help decrease the cognitive load on our users?
-					</aside>
-				</section>
-
-				<section>
-					<img src="./images/58-frames-tweet.png" />
-
-					<aside class="notes">
-						Now this doesn't come without more work. Motion design is not easy, and it often needs to be thought of during the design process, which adds more work in the mock phase.
-					</aside>
-				</section>
-
-				<section>
-					<img src="./images/transitional-interfaces/new-item-no-animate.gif" />
-					<small><em>https://medium.com/@pasql/transitional-interfaces-926eb80d64e3</em></small>
-
-					<aside class="notes">
-						But showing this to a client or stakeholder...
-					</aside>
-				</section>
-
-				<section>
-					<img src="./images/transitional-interfaces/new-item-pop-in.gif" />
-					<small><em>https://medium.com/@pasql/transitional-interfaces-926eb80d64e3</em></small>
-
-					<aside class="notes">
-						...does not have the same affect as does showing this,
-					</aside>
-				</section>
-
-				<section>
-					<img src="./images/transitional-interfaces/new-item-slide-in.gif" />
-					<small><em>https://medium.com/@pasql/transitional-interfaces-926eb80d64e3</em></small>
-
-					<aside class="notes">
-						or this.
-					</aside>
-				</section>
-
-				<section>
-					Not all fluff.
-
-					<aside class="notes">
-						Motion design can go beyond taking the cognitive load off of the user. Motion design can nudge the user experience in a particular direction.
-					</aside>
-				</section>
-
-				<section>
-					<img src="./images/smashing-magazine/stateful-toggle.gif" />
-					<small><em>http://www.smashingmagazine.com/2013/10/smart-transitions-in-user-experience-design/</em></small>
-					
-					<aside class="notes">
-						A stateful toggle invisibly reminds us how to get back to the previous state.
-					</aside>
-				</section>
-
-				<section>
-					<img src="./images/smashing-magazine/context-based-hiding.gif" />
-					<small><em>http://www.smashingmagazine.com/2013/10/smart-transitions-in-user-experience-design/</em></small>
-					
-					<aside class="notes">
-						Context based hiding can draw focus to what's important.
-					</aside>
-				</section>
-
-				<section>
-					<img src="./images/smashing-magazine/expanding-comments.gif" />
-					<small><em>http://www.smashingmagazine.com/2013/10/smart-transitions-in-user-experience-design/</em></small>
-					
-					<aside class="notes">
-						Or gently invite the user into functionality. Here we see the comment form is easy and simple, so we may be more inclined to comment. Once we get into the flow and see there are two more fields, we may not mind as much since we're already in the flow. Where as seeing the three fields to begin with may be perceived as too much effort to leave a comment.
-					</aside>
-				</section>
-
-				<section>
-					<img src="./images/smashing-magazine/stickey-label.gif" />
-					<small><em>http://www.smashingmagazine.com/2013/10/smart-transitions-in-user-experience-design/</em></small>
-					
-					<aside class="notes">
-						Here we might continue to read, because we are persuaded by motion techniques that convey transition and progression.
-					</aside>
-				</section>
-
-				<section>
-					Let's not get too carried away though.
-				</section>
-
-				<section>
-					<img src="./images/valhead/apple-odd-motion-non-fitting.gif" />
-					<small><em>http://valhead.com/2013/11/25/what-are-your-transitions-saying/</em></small>
-
-					<aside class="notes">
-						Take this unnecessary animation from Apple. The addtional "sugar" they ease in and out with is especially distracting. Like the case of our conceptual cereal box, this physical interaction feels slightly out of place.
-					</aside>
-				</section>
-
-				<section>
-					<img src="./images/beyond-kinetic/dots.gif" />
-					<small><em>http://www.beyondkinetic.com/motion-ui-design-principles/</em></small>
-
-					<aside class="notes">
-						In the game of Dots, however, the playfulness of the motion is warranted by the physical space it occupies, and the motion design has a common thread from the way we interact with the menus to the way we play the game.
-					</aside>
-				</section>
-
-				<section>
-					Material Design
-
-					<aside class="notes">
-						Thinking about simulating the physical world, naturally leads into material design, which is guided by 3 principles.
-					</aside>
-				</section>
-
-				<section>
-					<img src="./images/materialdesign_principles_metaphor.png" />
-
-					<aside class="notes"
-
-				<section>
-					demo
-				</section>
-
-				<section>
-					<h3>Thank you :D</h3>
-				</section>
-
-				<!-- example slides -->
-
-				<section>
-					<h1>Reveal.js</h1>
-					<h3>The HTML Presentation Framework</h3>
-					<p>
-						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
-					</p>
-				</section>
-
-				<section>
-					<h2>Hello There</h2>
-					<p>
-						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
-					</p>
-				</section>
-
-				<!-- Example of nested vertical slides -->
-				<section>
-					<section>
-						<h2>Vertical Slides</h2>
-						<p>Slides can be nested inside of each other.</p>
-						<p>Use the <em>Space</em> key to navigate through all slides.</p>
-						<br>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 1</h2>
-						<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
-					</section>
-					<section>
-						<h2>Basement Level 2</h2>
-						<p>That's it, time to go back up.</p>
-						<br>
-						<a href="#/2">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">
-						</a>
-					</section>
-				</section>
-
-				<section>
-					<h2>Slides</h2>
-					<p>
-						Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slides.com" target="_blank">http://slides.com</a>.
-					</p>
-				</section>
-
-				<section>
-					<h2>Point of View</h2>
-					<p>
-						Press <strong>ESC</strong> to enter the slide overview.
-					</p>
-					<p>
-						Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
-					</p>
-				</section>
-
-				<section>
-					<h2>Touch Optimized</h2>
-					<p>
-						Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
-					</p>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						## Markdown support
-
-						Write content using inline or external Markdown.
-						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-
-						```
-						<section data-markdown>
-						  ## Markdown support
-
-						  Write content using inline or external Markdown.
-						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-						</section>
-						```
-					</script>
-				</section>
-
-				<section>
-					<section id="fragments">
-						<h2>Fragments</h2>
-						<p>Hit the next arrow...</p>
-						<p class="fragment">... to step through ...</p>
-						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
-
-						<aside class="notes">
-							This slide has fragments which are also stepped through in the notes window.
-						</aside>
-					</section>
-					<section>
-						<h2>Fragment Styles</h2>
-						<p>There's different types of fragments, like:</p>
-						<p class="fragment grow">grow</p>
-						<p class="fragment shrink">shrink</p>
-						<p class="fragment fade-out">fade-out</p>
-						<p class="fragment current-visible">current-visible</p>
-						<p class="fragment highlight-red">highlight-red</p>
-						<p class="fragment highlight-blue">highlight-blue</p>
-					</section>
-				</section>
-
-				<section id="transitions">
-					<h2>Transition Styles</h2>
-					<p>
-						You can select from different transitions, like: <br>
-						<a href="?transition=none#/transitions">None</a> -
-						<a href="?transition=fade#/transitions">Fade</a> -
-						<a href="?transition=slide#/transitions">Slide</a> -
-						<a href="?transition=convex#/transitions">Convex</a> -
-						<a href="?transition=concave#/transitions">Concave</a> -
-						<a href="?transition=zoom#/transitions">Zoom</a>
-					</p>
-				</section>
-
-				<section id="themes">
-					<h2>Themes</h2>
-					<p>
-						reveal.js comes with a few themes built in: <br>
-						<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-					</p>
-				</section>
-
-				<section>
-					<section data-background="#dddddd">
-						<h2>Slide Backgrounds</h2>
-						<p>
-							Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
-						</p>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
-						<h2>Image Backgrounds</h2>
-						<pre><code>&lt;section data-background="image.png"&gt;</code></pre>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-						<h2>Tiled Backgrounds</h2>
-						<pre><code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
-					</section>
-					<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
-						<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-							<h2>Video Backgrounds</h2>
-							<pre><code style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
-						</div>
-					</section>
-					<section data-background="http://i.giphy.com/90F8aUepslB84.gif">
-						<h2>... and GIFs!</h2>
-					</section>
-				</section>
-
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
-					</p>
-					<pre><code>Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
-				</section>
-
-				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						You can override background transitions per-slide.
-					</p>
-					<pre><code style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
-				</section>
-
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
-
-    var nodes = document.querySelectorAll( selector );
-
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
-
-      if( !node.className ) {
-        node.className += ' roll';
-      }
-    }
-  }
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        
+        <section>
+          <h2>Understanding liquid-fire</h2>
+          <p>by @ianstarz</p>
+          <em>Denver Ember.js meetup 7-29-15</em>
+        </section>
+
+        <section>
+          <p>First, a few thoughts on design...</p>
+        </section>
+
+        <section>
+          <video controls>
+            <source src="videos/ef4-on-design.mp4" type="video/mp4">
+          </video>
+          <small><em>https://www.youtube.com/watch?v=vq_BcIFM8Rc</em></small>
+
+          <aside class="notes">
+            (before the video plays)
+            Here is a clip of Edward Faulkener at the Silicon Valley Ember.js meet up in April.
+
+            (after the video plays)
+            Edward's talk at the Silicon Valley Ember.js meet up is an excellent resource for liquid-fire, and I got a lot out of it on my second time watching it. If you haven't seen this talk or the one he gave at Ember Conf, I'd highly recommend it as he does a lot of cool stuff with liquid-fire and other aspects of Ember CLI.
+
+            But let's talk for a moment about placing our designs in context.
+          </aside>            
+        </section>
+
+        <section>
+          <img src="images/lean-crunch.jpg" />
+
+          <aside class="notes">
+            Take for instance this product. Does anyone know what it is? Admittedly, this is actually a conceptual design for Kashi Go Lean Crunch cereal, so this example is somewhat contrived, but it was designed nonetheless. Perhaps we can make sense of this design in context.
+          </aside>
+        </section>
+
+        <section>
+          <img src="images/cereal-aisle.jpg" />
+
+          <aside class="notes">
+            In the very specific building and task for grocery shopping, and even more specifically, in the cereal aisle, we have pretty standardized expectations for what the products will look like.
+          </aside>
+        </section>
+
+        <section>
+          <img src="images/lean-crunch.jpg" />
+
+          <aside class="notes">
+            <p>Now, a product like this...</p>
+          </aside>
+        </section>
+
+        <section>
+          <img src="images/cereal-aisle.jpg" />
+
+          <aside class="notes">
+            ..in this environment, might do one of three things: 1) it might stand out to you; 2) it might blend in naturally; 3) or it might offend you. Each one of these outcomes has a variety of different consequences that should be considered, but ultimately, you want to start with one simple consideration: what effects does this physical object have in its environment.
+          </aside>
+        </section>
+
+        <section>
+          <img src="./images/dieter-rams-radio.jpg" />
+
+          <aside class="notes">
+            The way we perceive the world is a natural process. Our brains have evolved to quickly and efficiently place objects in the context of our world. This is why good design is so often "invisible". Good design is frictionless when being placed in our surroundings.
+          </aside>
+        </section>
+
+        <section>
+          <img src="./images/doorstep.jpg" />
+
+          <aside class="notes">
+            Contrarily, unfunctional design can be jarring. It calls attention to itself, and away from the purpose it is trying to fit. The lines and composition might be pleasant, but the object's function in the physical world can be quixotic.
+          </aside>
+        </section>
+
+        <section>
+          <video controls>
+            <source src="videos/ef4-on-abstraction.mp4" type="video/mp4">
+          </video>
+          <small><em>https://www.youtube.com/watch?v=vq_BcIFM8Rc</em></small>
+
+          <aside class="notes">
+            (before video plays)
+            Here is another clip of Edward talking about abstraction and it's cognitive load on the brain.
+
+            (after video plays)
+            Edward is trying to convey two points here. One, the motion design we're interested in is animation that helps the user understand how they affect the state of the application. And two, that even for abstract thinkers, using this motion design helps users consume abstraction.
+          </aside>            
+        </section>
+
+        <section>
+          <img src="./images/animation-paper-excerpt.png" />
+          <small><em>http://www.selflanguage.org/_static/published/animation.pdf</em></small>
+
+          <aside class="notes">
+            Here is an excerpt from a 1993 paper by Standford professor Bay-Wei Chang and Sun Microsystems engineer David Ungar titled "Animation: From Cartoons to the User Interface". In the abstract they state "When the user cannot visually track the changes occurring in the interface, the causal connection between the old state of the screen and the new state of the screen is not immediately clear. How are the objects now on the screen related to the ones which were there a moment ago? Are they the same objects, or have they been replaced by different objects? What changes are directly related to the user’s actions, and which are incidental? To be able to efficiently and reliably interpret what has happened when the screen changes state, the user must be prepared with an expectation of what the screen will look like after the action. In the case of most interactions in unanimated interfaces, this expectation can only come by experience; little in the interface or the action gives the user a clue about what will happen, what is happening, or what just happened."
+          </aside>
+        </section>
+
+        <section>
+          <img src="./images/smashing-magazine/scrolling-no-animation.gif" />
+          <small><em>http://www.smashingmagazine.com/2013/10/smart-transitions-in-user-experience-design/</em></small>
+
+          <aside class="notes">
+            We encounter these ideas in user experience and user interface design, and even though we as user experience designers understand why something might behave like this.
+          </aside>
+        </section>
+
+        <section>
+          <img src="./images/smashing-magazine/scrolling-animated.gif" />
+          <small><em>http://www.smashingmagazine.com/2013/10/smart-transitions-in-user-experience-design/</em></small>
+          
+          <aside class="notes">
+            When we simulate a physical experience, the experience is easier to understand and actually takes away cognitive load, even though you are adding to the experience. There are many more frames between the animated scroll vs the non animated scroll, but they help the user instead of making them think harder. This should be a motivation as motion designers. We should ask ourselves: how does this motion help decrease the cognitive load on our users?
+          </aside>
+        </section>
+
+        <section>
+          <img src="./images/58-frames-tweet.png" />
+
+          <aside class="notes">
+            Now this doesn't come without more work. Motion design is not easy, and it often needs to be thought of during the design process, which adds more work in the mock phase.
+          </aside>
+        </section>
+
+        <section>
+          <img src="./images/transitional-interfaces/new-item-no-animate.gif" />
+          <small><em>https://medium.com/@pasql/transitional-interfaces-926eb80d64e3</em></small>
+
+          <aside class="notes">
+            But showing this to a client or stakeholder...
+          </aside>
+        </section>
+
+        <section>
+          <img src="./images/transitional-interfaces/new-item-pop-in.gif" />
+          <small><em>https://medium.com/@pasql/transitional-interfaces-926eb80d64e3</em></small>
+
+          <aside class="notes">
+            ...does not have the same affect as does showing this,
+          </aside>
+        </section>
+
+        <section>
+          <img src="./images/transitional-interfaces/new-item-slide-in.gif" />
+          <small><em>https://medium.com/@pasql/transitional-interfaces-926eb80d64e3</em></small>
+
+          <aside class="notes">
+            or this.
+          </aside>
+        </section>
+
+        <section>
+          <p>Not all fluff</p>
+
+          <aside class="notes">
+            Motion design can go beyond taking the cognitive load off of the user. Motion design can nudge the user experience in a particular direction.
+          </aside>
+        </section>
+
+        <section>
+          <img src="./images/smashing-magazine/stateful-toggle.gif" />
+          <small><em>http://www.smashingmagazine.com/2013/10/smart-transitions-in-user-experience-design/</em></small>
+          
+          <aside class="notes">
+            A stateful toggle invisibly reminds us how to get back to the previous state.
+          </aside>
+        </section>
+
+        <section>
+          <img src="./images/smashing-magazine/context-based-hiding.gif" />
+          <small><em>http://www.smashingmagazine.com/2013/10/smart-transitions-in-user-experience-design/</em></small>
+          
+          <aside class="notes">
+            Context based hiding can draw focus to what's important.
+          </aside>
+        </section>
+
+        <section>
+          <img src="./images/smashing-magazine/expanding-comments.gif" />
+          <small><em>http://www.smashingmagazine.com/2013/10/smart-transitions-in-user-experience-design/</em></small>
+          
+          <aside class="notes">
+            Or gently invite the user into functionality. Here we see the comment form is easy and simple, so we may be more inclined to comment. Once we get into the flow and see there are two more fields, we may not mind as much since we're already in the flow. Where as seeing the three fields to begin with may be perceived as too much effort to leave a comment.
+          </aside>
+        </section>
+
+        <section>
+          <img src="./images/smashing-magazine/stickey-label.gif" />
+          <small><em>http://www.smashingmagazine.com/2013/10/smart-transitions-in-user-experience-design/</em></small>
+          
+          <aside class="notes">
+            Here we might continue to read, because we are persuaded by motion techniques that convey transition and progression.
+          </aside>
+        </section>
+
+        <section>
+          <p>Let's not get too carried away though.</p>
+        </section>
+
+        <section>
+          <img src="./images/valhead/apple-odd-motion-non-fitting.gif" />
+          <small><em>http://valhead.com/2013/11/25/what-are-your-transitions-saying/</em></small>
+
+          <aside class="notes">
+            Take this unnecessary animation from Apple. The addtional "sugar" they ease in and out with is especially distracting. Like the case of our conceptual cereal box, this physical interaction feels slightly out of place.
+          </aside>
+        </section>
+
+        <section>
+          <img src="./images/beyond-kinetic/dots.gif" />
+          <small><em>http://www.beyondkinetic.com/motion-ui-design-principles/</em></small>
+
+          <aside class="notes">
+            In the game of Dots, however, the playfulness of the motion is warranted by the physical space it occupies, and the motion design has a common thread from the way we interact with the menus to the way we play the game.
+          </aside>
+        </section>
+
+        <section>
+          Material Design
+
+          <aside class="notes">
+            Thinking about simulating the physical world, naturally leads into material design, which is guided by 3 principles.
+          </aside>
+        </section>
+
+        <section>
+          <p>Material is metaphor</p>
+          <img width="400px" height="auto" src="./images/materialdesign_principles_metaphor.png" />
+
+          <aside class="notes">
+            Material as a metaphor is easy for us to understand. We use metaphors all the time in computer science. For example, "bugs" or coding "closer to the metal" are metaphors that help anchor abstract ideas in the world of the physical.
+          </aside>
+        </section>
+
+        <section>
+          <p>Bold, graphic, intentional</p>
+          <img width="400px" height="auto" src="./images/materialdesign_principles_bold.png" />
+
+          <aside class="notes">
+            I believe this principle to be more subjective, and open to interpretation. Take it or leave it, but this is not what we're interested in right now.
+          </aside>
+        </section>
+
+        <section>
+          <p>Motion provides meaning</p>
+          <img width="400px" height="auto" src="./images/materialdesign_principles_motion.png" />
+
+          <aside class="notes">
+            This is what we're interested in. Motion provides meaning is the 3rd principle of Material Design, and it falls in line with the philosophies of liquid fire.
+          </aside>
+        </section>
+
+        <section>
+          <p>The meanings...</p>
+
+          <aside class="notes">
+            Rachel Nabors provides us with some examples of this meaning in her article on A List Apart.
+          </aside>
+        </section>
+
+        <section>
+          <p>Causality</p>
+          <img width="600px" height="auto" src="./images/a-list-apart/animation-principles_causality.gif" />
+          <small><em>http://alistapart.com/article/web-animation-at-work</em></small>
+
+          <aside class="notes">
+            Here we see the meaning of causality. When a user affects something, and they feel they've affected something, it's because the motion happened after their interaction and not before. When it happens before, the system seems to "act on its own".
+          </aside>
+        </section>
+
+        <section>
+          <p>Feedback</p>
+          <img width="600px" height="auto" src="./images/a-list-apart/animation-principles_feedback.gif" />
+          <small><em>http://alistapart.com/article/web-animation-at-work</em></small>
+
+          <aside class="notes">
+            Feedback provides the user with a sense that they have affected something. This way, if the user experience hangs, the user can suspect the system is hanging by something other than whether or not they actually pressed the button.
+          </aside>
+        </section>
+
+        <section>
+          <p>Progression</p>
+          <img width="600px" height="auto" src="./images/a-list-apart/animation-principles_progression.gif" />
+          <small><em>http://alistapart.com/article/web-animation-at-work</em></small>
+
+          <aside class="notes">
+            This is the base principle for animated spinners, but can be applied in many more creative ways. Progression is often used to keep users engaged while they are not necessarily affecting the system, but could also be used to show how incremental actions affect the system.
+          </aside>
+        </section>
+
+        <section>
+          <p>Relationships</p>
+          <img width="600px" height="auto" src="./images/a-list-apart/animation-principles_relationships.gif" />
+          <small><em>http://alistapart.com/article/web-animation-at-work</em></small>
+
+          <aside class="notes">
+            One of the most important meanings behind motion is spatial relationship, which can help orient the user within their viewport. When we feel like the things we are seeing through the viewport are a part of a larger connected system, then when we move through the system we don't feel disjointed.
+          </aside>
+        </section>
+
+        <section>
+          How do we do this?
+
+          <aside class="notes">
+            There of course are many ways to animate things on the web. Dozens of animation libraries that vary from using canvas, to SVG, to WebGL, that all provide a variety of purposes.
+          </aside>
+        </section>
+
+        <section>
+          <p>How do we do this in Ember with liquid-fire?</p>
+          <ol>
+            <li class="fragment fade">
+              Use motion design to understand application state changes
+            </li>
+            <li class="fragment fade">
+              To implement motion design in a way that plays nice with Ember
+            </li>
+          </ol>
+
+          <aside class="notes">
+            Taking the principles we just covered we can more concretely define the goals of liquid-fire which are: 1) To use animation specifically to provide the user with natural information on how they are affecting the application state, and 2) to do so in a way that goes with the flow of the framework instead of fighting it.
+          </aside>
+        </section>
+
+        <section>
+          <p>Animations in Ember without liquid-fire</p>
+
+          <aside class="notes">
+            To appreciate what liquid-fire does for us, let's first think about how we could animate without it. Also, because Ember prescribes storing the state of your application in the URL, we'll especially be interested in animating between routes.
+          </aside>
+        </section>
+
+        <section>
+          <p><em>/circle</em></p>
+          <svg width="400" height="400">
+            <circle cx="200" cy="200" r="100" fill="blue"></circle>
+          </svg>
+
+          <aside class="notes">
+            For instance, we have a route called "circle"...
+          </aside>
+        </section>
+
+        <section>
+          <p><em>/square</em></p>
+          <svg width="400" height="400">
+            <rect x="100" y="100" width="200" height="200" fill="red"></circle>
+          </svg>
+
+          <aside class="notes">
+            ...and a route called "square", and we move between these two routes.
+          </aside>
+        </section>
+
+        <section>
+          <p>Without animation</p>
+
+          <aside class="notes">
+            Without animation, Ember's architecture goes through the following sequence to transition between the two routes.
+          </aside>
+        </section>
+
+        <section>
+          <p><em>/circle</em></p>
+          <svg width="400" height="400">
+            <circle cx="200" cy="200" r="100" fill="blue"></circle>
+          </svg>
+
+          <aside class="notes">
+            When we leave the circle route, Ember's router will begin the transition...
+          </aside>
+        </section>
+
+        <section>
+          <p><em>/circle</em></p>
+          <svg width="400" height="400">
+
+          </svg>
+
+          <aside class="notes">
+            ...which involves tearing down the current route...
+          </aside>
+        </section>
+
+        <section>
+          <p><em>/square</em></p>
+          <svg width="400" height="400">
+
+          </svg>
+
+          <aside class="notes">
+            ...representing the new route hierarchy to the rendering layer...
+          </aside>
+        </section>
+
+        <section>
+          <p><em>/square</em></p>
+          <svg width="400" height="400">
+            <rect x="100" y="100" width="200" height="200" fill="red"></circle>
+          </svg>
+
+          <aside class="notes">
+            ...which the rendering layer then populates the route.
+          </aside>
+        </section>
+
+        <section>
+          <p>Steps needed to animate</p>
+          <ol style="font-size: 32px;">
+            <li class="fragment fade">Route knows it's deactivating (exiting the circle route)</li>
+            <li class="fragment fade">Router determines which route we're going to (the sqaure route)</li>
+            <li class="fragment fade">Service we implement saves the view we're about to tear down.</li>
+            <li class="fragment fade">Tear down route, but allow service to keep copy of the view in the outlet</li>
+            <li class="fragment fade">Render the new route, but hide and position the new element (the square)</li>
+            <li class="fragment fade">Animate the old value (the circle) off the screen to the left</li>
+            <li class="fragment fade">Animate the new value (the square) onto the screen from the right</li>
+            <li class="fragment fade">Tear down the old value (remove the circle from the DOM)</li>
+          </ol>
+
+          <aside class="notes">
+            This is all fine and dandy, until we want to do a simple sliding transition. To animate the transition. We need both of the routes, both of the views available during the duration of the transition. In this case the steps to animate might look like this.
+
+            (Step through list)
+
+            Woah, that's alot, and worse yet it is concerning our Router, Routes, and View objects all with how things should animate. That's a lot of work! And it feels like we're fighting the framework.
+          </aside>
+        </section>
+
+        <section>
+          <p>The main principles of liquid-fire</p>
+          <ol>
+            <li class="fragment fade">Use template helpers to keep track of old and new values</li>
+            <li class="fragment fade">Defer to a transition map when asking should we animate, and if so, how?</li>
+          </ol>
+
+          <aside class="notes">
+            This brings us to the two main principles of liquid-fire, which are these. (step through principles) All of the complexity of animating between state changes is now handled by liquid-fire by minimal impact to your templates and by introducing a new function (the transition map) into your application. You won't need to touch your router, routes, or views to make any of this work!
+          </aside>
+        </section>
+
+        <section>
+          <p>Template helpers</p>
+
+          <aside class="notes">
+            Let's investigate these two principles in detail. The tempalte helpers are responsible for two things: 1) Saving the new and the old values when something changes, 2) adding some layout to help with animation.
+          </aside>
+        </section>
+
+        <section>
+          {{ liquid-outlet }}
+        </section>
+
+        <section>
+          {{ liquid-bind }}
+        </section>
+
+        <section>
+          {{ liquid-if }}
+        </section>
+
+        <section>
+          <p>The additional markup</p>
+          <img src="./images/liquid-fire-markup.png" />
+        </section>
+
+        <section>
+          <p>The additional markup</p>
+          <img src="./images/liquid-container-style.png" />
+        </section>
+
+        <section>
+          <p>The additional markup</p>
+          <img src="./images/liquid-child-style.png" />
+        </section>
+
+        <section>
+          <p>The transition map</p>
+        </section>
+
+        <section>
+          <pre><code class="javascript" data-trim style="font-size: 18px;">
+// app/transitions.js
+export default function() {
+  this.transition(
+    this.fromRoute('circle'),
+    this.toRoute('square'),
+    this.use('toLeft')
+  );
 }
-					</code></pre>
-					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-				</section>
+          </code></pre>
 
-				<section>
-					<h2>Marvelous List</h2>
-					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-					</ul>
-				</section>
+          <aside class="notes">
+            Now this only goes in one direction.
+          </aside>
+        </section>
 
-				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
-				</section>
+        <section>
+          <pre><code class="javascript" data-trim style="font-size: 18px;">
+// app/transitions.js
+export default function() {
+  this.transition(
+    this.fromRoute('circle'),
+    this.toRoute('square'),
+    this.use('toLeft')
+  );
 
-				<section>
-					<h2>Tabular Tables</h2>
-					<table>
-						<thead>
-							<tr>
-								<th>Item</th>
-								<th>Value</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Apples</td>
-								<td>$1</td>
-								<td>7</td>
-							</tr>
-							<tr>
-								<td>Lemonade</td>
-								<td>$2</td>
-								<td>18</td>
-							</tr>
-							<tr>
-								<td>Bread</td>
-								<td>$3</td>
-								<td>2</td>
-							</tr>
-						</tbody>
-					</table>
-				</section>
+  this.transition(
+    this.fromRoute('square'),
+    this.toRoute('circle'),
+    this.use('toRight')
+  );
+}
+          </code></pre>
 
-				<section>
-					<h2>Clever Quotes</h2>
-					<p>
-						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
-					</p>
-					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-					</blockquote>
-				</section>
+          <aside class="notes">
+            To go in the other direction, too, you could do this.
+          </aside>
+        </section>
 
-				<section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
-					</p>
-				</section>
+        <section>
+          <pre><code class="javascript" data-trim style="font-size: 18px;">
+// app/transitions.js
+export default function() {
+  this.transition(
+    this.fromRoute('circle'),
+    this.toRoute('square'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+}
+          </code></pre>
 
-				<section>
-					<h2>Speaker View</h2>
-					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-					<p>Press the <em>S</em> key to try it out.</p>
+          <aside class="notes">
+            But this is so common that you can just do this.
+          </aside>
+        </section>
 
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
-				</section>
+        <section>
+          demo
+        </section>
 
-				<section>
-					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
-					<iframe src="//www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-				</section>
+        <section>
+          <h3>Thank you :D</h3>
+        </section>
 
-				<section>
-					<h2>Global State</h2>
-					<p>
-						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-						will be added as a class to the document element when the slide is open. This lets you
-						apply broader style changes, like switching the page background.
-					</p>
-				</section>
+      </div>
 
-				<section data-state="customevent">
-					<h2>State Events</h2>
-					<p>
-						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-					</p>
-					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
-				</section>
+    </div>
 
-				<section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
-					</p>
-				</section>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
 
-				<section>
-					<h2>Much more</h2>
-					<ul>
-						<li>Right-to-left support</li>
-						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
-					</ul>
-				</section>
+    <script>
 
-				<section style="text-align: left;">
-					<h1>THE END</h1>
-					<p>
-						- <a href="http://slides.com">Try the online editor</a> <br>
-						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
-					</p>
-				</section>
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
 
-			</div>
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
 
-		</div>
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+    </script>
 
-		<script>
-
-			// Full list of configuration options available at:
-			// https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
-
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
-
-				// Optional reveal.js plugins
-				dependencies: [
-					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
-				]
-			});
-
-		</script>
-
-	</body>
+  </body>
 </html>
